@@ -86,7 +86,6 @@ BOOLEAN pu2NoteOffTrigger;
 BOOLEAN wavNoteOffTrigger;
 BOOLEAN noiNoteOffTrigger;
 
-UINT8 polyVoiceSelect;
 UBYTE polyNoteState[3];
 
 BOOLEAN pu1Sus;

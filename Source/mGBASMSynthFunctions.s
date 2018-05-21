@@ -897,17 +897,11 @@ _asmPlayNotePolyOff$::
 	cp	B
 	call z,_asmPlayNotePolyPu1Off$;
 
-	ld	hl, #_note
-	ld	A,(hl)
-	ld  B, A
 	ld	hl,#_polyNoteState + 1
 	ld	A,(hl)
 	cp	B
 	call z,_asmPlayNotePolyPu2Off$;
 
-	ld	hl, #_note
-	ld	A,(hl)
-	ld  B, A
 	ld	hl,#_polyNoteState + 2
 	ld	A,(hl)
 	cp	B
@@ -916,44 +910,47 @@ pop bc
 ret
 
 _asmPlayNotePolyPu1Off$::
+	ld	hl,#_polyNoteState + 0
+	ld	(hl),#0x00
 	call _asmPlayNotePu1
 	push bc
 ret
 _asmPlayNotePolyPu2Off$::
+	ld	hl,#_polyNoteState + 1
+	ld	(hl),#0x00
 	call _asmPlayNotePu2$
 	push bc
 ret
 _asmPlayNotePolyWavOff$::
+	ld	hl,#_polyNoteState + 2
+	ld	(hl),#0x00
 	call _asmPlayNoteWav$
 	push bc
 ret
 
 _asmPlayNotePolyOn$::
-	ld	hl,#_polyVoiceSelect
+	;; if pu1 isn't playing
+	ld	hl,#_polyNoteState + 0
 	ld	A,(hl)
-	inc A
-	cp	#0x03
-	jr	z,_asmPlayNotePolyRst$
-	jr	_asmPlayNotePolyCon$
-pop bc
-ret
-_asmPlayNotePolyRst$::
-	ld	A, #0x00
-	jr	_asmPlayNotePolyCon$
-pop bc
-ret
-_asmPlayNotePolyCon$::
-	ld	(hl),A
 	cp	#0x00
-	jr	z,_asmPlayNotePolyPu1$
-	cp	#0x01
-	jr	z,_asmPlayNotePolyPu2$
+	jr z,_asmPlayNotePolyPu1$;
 
+	;; if pu2 isn't playing
+	ld	hl,#_polyNoteState + 1
+	ld	A,(hl)
+	cp	#0x00
+	jp z,_asmPlayNotePolyPu2$;
+
+	;; if wav isn't playing
 	ld	hl,#_polyNoteState + 2
-	ld	(hl),B
-	jp	_asmPlayNoteWav$;
+	ld	A,(hl)
+	cp	#0x00
+	jp z,_asmPlayNotePolyWav$;
+
+	;; nothing.
 pop bc
 ret
+
 _asmPlayNotePolyPu1$::
 	ld	hl,#_polyNoteState + 0
 	ld	(hl),B
@@ -965,5 +962,11 @@ _asmPlayNotePolyPu2$::
 	ld	hl,#_polyNoteState + 1
 	ld	(hl),B
 	jp	_asmPlayNotePu2$;
+pop bc
+ret
+_asmPlayNotePolyWav$::
+	ld	hl,#_polyNoteState + 2
+	ld	(hl),B
+	jp	_asmPlayNoteWav$;
 pop bc
 ret

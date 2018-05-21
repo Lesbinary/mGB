@@ -6,6 +6,9 @@ mGB is a Gameboy cartridge program (You need a Flash Cart and Transfer hardware)
 ![ScreenShot](http://trash80.net/arduinoboy/mGB1_2_0.png)
 
 ## Change Log
+ * 05/22/18
+   * Renamed {address,value}Byte to note/velocity.
+   * Implemented proper 3 voice polyphony as opposed to round-robin style.
  * 06/26/15 
    * Project has been moved to GitHub along with sourcecode.
  * 12/21/12 1.3.3
