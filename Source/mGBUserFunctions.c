@@ -9,7 +9,7 @@ void setDataValue()
 	BOOLEAN up=0;
 	UBYTE inc=1;
 	systemIdle = 0;
-	
+
 	j = 0;
 	if(i & J_UP) {
 		j = 1;
@@ -20,7 +20,7 @@ void setDataValue()
 		inc=16;
 	} else if (i & J_LEFT) {
 		j = 1;
-	} else if (i & J_RIGHT) {	
+	} else if (i & J_RIGHT) {
 		up=1;
 		j = 1;
 	}
@@ -146,13 +146,13 @@ void getPad()
 			}
 			if((i & J_START) && !joyState[7]) {
 				joyState[7] = 1;
-                NR12_REG = 0;
-                NR22_REG = 0;
-                NR32_REG = 0;
-                NR42_REG = 0;
+				NR12_REG = 0;
+				NR22_REG = 0;
+				NR32_REG = 0;
+				NR42_REG = 0;
 				pbWheelIn[0] = pbWheelIn[1] = pbWheelIn[2] = pbWheelIn[3] = 0x80;
-                pu1Sus = pu2Sus = wavSus = 0;
-				
+				pu1Sus = pu2Sus = wavSus = 0;
+				polyNoteState[0] = polyNoteState[1] = polyNoteState[2] = 0;
 				return;
 			} else if (joyState[7]) {
 				joyState[7] = 0;
