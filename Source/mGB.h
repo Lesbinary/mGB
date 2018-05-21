@@ -7,8 +7,8 @@ extern UBYTE serialBufferPosition;
 extern UBYTE serialBufferReadPosition;
 
 UBYTE statusByte;
-UBYTE addressByte;
-UBYTE valueByte;
+UBYTE note;
+UBYTE velocity;
 UBYTE captureDataType;
 UBYTE capturedAddress;
 UBYTE updateDisplaySynthCounter;

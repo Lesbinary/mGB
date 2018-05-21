@@ -25,7 +25,7 @@ push bc
 
 	ld	hl,#_capturedAddress
 	ld (hl),#0x00
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld (hl),A
 	ld hl,#_systemIdle
 	ld (hl),#0x00
@@ -72,7 +72,7 @@ ret
 
 _asmUpdateMidiBufferAddress$::
 	ld (hl),#0x01
-	ld	hl,#_addressByte
+	ld	hl,#_note
 	ld (hl),A
 
 	ld hl,#_systemIdle
@@ -81,7 +81,7 @@ pop	bc
 ret
 
 _asmEventMidiNoteOff$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	(hl),#0x00
 	jr _asmEventMidiNote$
 pop	bc
@@ -159,9 +159,9 @@ ret
 ;----------------------------------------------------------------------------------------------------
 ;----------------------------------------------------------------------------------------------------
 _asmPu1MidiPb$::
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	B,(hl)
 	RLCA
 	ld  C,A
@@ -177,9 +177,9 @@ pop	bc
 ret
 
 _asmPu2MidiPb$::
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	B,(hl)
 	RLCA
 	ld  C,A
@@ -195,9 +195,9 @@ pop	bc
 ret
 
 _asmWavMidiPb$::
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	B,(hl)
 	RLCA
 	ld  C,A
@@ -213,9 +213,9 @@ pop	bc
 ret
 
 _asmNoiMidiPb$::
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	B,(hl)
 	RLCA
 	ld  C,A
@@ -231,9 +231,9 @@ pop	bc
 ret
 
 _asmPolyMidiPb$::
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	B,(hl)
 	RLCA
 	ld  C,A
@@ -258,7 +258,7 @@ ret
 ;----------------------------------------------------------------------------------------------------
 ;----------------------------------------------------------------------------------------------------
 _asmEventMidiCCPu1$::
-	ld	hl,#_addressByte
+	ld	hl,#_note
 	ld	A,(hl)
 	cp	#0x01
 		jr z,_asmPu1Wav$;
@@ -289,7 +289,7 @@ _asmPu1Wav$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	RLCA
@@ -313,7 +313,7 @@ _asmPu1Env$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	RRCA
@@ -336,7 +336,7 @@ _asmPu1Swp$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld (#0xFF10),A
@@ -348,7 +348,7 @@ ret
 
 
 _asmPu1Pbr$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_pbRange + 0
@@ -361,7 +361,7 @@ ret
 
 
 _asmPu1Lod$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_dataSet + 24
@@ -387,7 +387,7 @@ _asmPu1Pan$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	AND #0x60
 	cp A, #0x00
@@ -437,7 +437,7 @@ ret
 
 
 _asmPu1VD$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoDepth + 0
@@ -448,7 +448,7 @@ ret
 
 
 _asmPu1VR$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoSpeed + 0
@@ -458,7 +458,7 @@ ret
 
 
 _asmPu1Sus$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	bit 6,A
 	jr nz, _asmPu1SusOn$
@@ -506,7 +506,7 @@ ret
 ;----------------------------------------------------------------------------------------------------
 ;----------------------------------------------------------------------------------------------------
 _asmEventMidiCCPu2$::
-	ld	hl,#_addressByte
+	ld	hl,#_note
 	ld	A,(hl)
 	cp	#0x01
 		jr z,_asmPu2Wav$;
@@ -535,7 +535,7 @@ _asmPu2Wav$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	RLCA
@@ -559,7 +559,7 @@ _asmPu2Env$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	RRCA
@@ -576,7 +576,7 @@ pop	bc
 ret
 
 _asmPu2Pbr$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_pbRange + 1
@@ -589,7 +589,7 @@ ret
 
 
 _asmPu2Lod$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_dataSet + 25
@@ -615,7 +615,7 @@ _asmPu2Pan$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	AND #0x60
 	cp A, #0x00
@@ -665,7 +665,7 @@ ret
 
 
 _asmPu2VD$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoDepth + 1
@@ -676,7 +676,7 @@ ret
 
 
 _asmPu2VR$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoSpeed + 1
@@ -686,7 +686,7 @@ ret
 
 
 _asmPu2Sus$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	bit 6,A
 	jr nz, _asmPu2SusOn$
@@ -733,7 +733,7 @@ ret
 ;----------------------------------------------------------------------------------------------------
 ;----------------------------------------------------------------------------------------------------
 _asmEventMidiCCWav$::
-	ld	hl,#_addressByte
+	ld	hl,#_note
 	ld	A,(hl)
 	cp	#0x01
 		jr z,_asmWavWav$;
@@ -765,7 +765,7 @@ _asmWavWav$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	RLCA
 	AND #0xF0
@@ -790,7 +790,7 @@ _asmWavOst$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	RRCA
 	RRCA
@@ -816,7 +816,7 @@ _asmWavSwp$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	RLCA
 	SWAP A
@@ -830,7 +830,7 @@ ret
 
 
 _asmWavPbr$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_pbRange + 2
@@ -843,7 +843,7 @@ ret
 
 
 _asmWavLod$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_dataSet + 26
@@ -869,7 +869,7 @@ _asmWavPan$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	AND #0x60
 	cp A, #0x00
@@ -919,7 +919,7 @@ ret
 
 
 _asmWavVD$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoDepth + 2
@@ -930,7 +930,7 @@ ret
 
 
 _asmWavVR$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoSpeed + 2
@@ -940,7 +940,7 @@ ret
 
 
 _asmWavSus$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	bit 6,A
 	jr nz, _asmWavSusOn$
@@ -987,7 +987,7 @@ ret
 ;----------------------------------------------------------------------------------------------------
 ;----------------------------------------------------------------------------------------------------
 _asmEventMidiCCNoi$::
-	ld	hl,#_addressByte
+	ld	hl,#_note
 	ld	A,(hl)
 	cp	#0x02
 		jr z,_asmNoiEnv$;
@@ -1013,7 +1013,7 @@ _asmNoiEnv$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	RRCA
@@ -1031,7 +1031,7 @@ ret
 
 
 _asmNoiLod$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_dataSet + 27
@@ -1057,7 +1057,7 @@ _asmNoiPan$::
 	bit 0, A
 	jp nz, _popReturn$
 
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	AND #0x60
 	cp A, #0x00
@@ -1107,7 +1107,7 @@ ret
 
 
 _asmNoiVD$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoDepth + 3
@@ -1118,7 +1118,7 @@ ret
 
 
 _asmNoiVR$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 
 	ld	de,#_vibratoSpeed + 3
@@ -1128,7 +1128,7 @@ ret
 
 
 _asmNoiSus$::
-	ld	hl,#_valueByte
+	ld	hl,#_velocity
 	ld	A,(hl)
 	bit 6,A
 	jr nz, _asmNoiSusOn$
@@ -1175,7 +1175,7 @@ ret
 ;----------------------------------------------------------------------------------------------------
 ;----------------------------------------------------------------------------------------------------
 _asmEventMidiCCPoly$::
-	ld	hl,#_addressByte
+	ld	hl,#_note
 	ld	A,(hl)
 
 	cp	#0x01

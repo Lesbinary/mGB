@@ -367,14 +367,14 @@ ret
 ;--------------------------------------------------------------
 
 _asmPlayNotePu1::
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	SUB #0x24
 	ld	hl, #_pu1Oct
 	add (hl)
 
 	ld  B, A
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
 	ld  C, A
 
@@ -509,14 +509,14 @@ ret
 ;--------------------------------------------------------------
 
 _asmPlayNotePu2$::
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	SUB #0x24
 	ld	hl, #_pu2Oct
 	add (hl)
 
 	ld  B, A
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
 	ld  C, A
 
@@ -646,13 +646,13 @@ ret
 
 
 _asmPlayNoteWav$::
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	SUB #0x18
 	ld	hl, #_wavOct
 	add (hl)
 	ld  B, A
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
 	ld  C, A
 
@@ -791,13 +791,13 @@ ret
 ;--------------------------------------------------------------
 
 _asmPlayNoteNoi$::
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	SUB #0x18
 	ld	hl, #_pu2Oct
 	add (hl)
 	ld  B, A
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
 	ld  C, A
 
@@ -879,10 +879,10 @@ ret
 ;--------------------------------------------------------------
 
 _asmPlayNotePoly$::
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	ld  B, A
-	ld	hl, #_valueByte
+	ld	hl, #_velocity
 	ld	A,(hl)
 	ld  C, A
 
@@ -897,7 +897,7 @@ _asmPlayNotePolyOff$::
 	cp	B
 	call z,_asmPlayNotePolyPu1Off$;
 
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	ld  B, A
 	ld	hl,#_polyNoteState + 1
@@ -905,7 +905,7 @@ _asmPlayNotePolyOff$::
 	cp	B
 	call z,_asmPlayNotePolyPu2Off$;
 
-	ld	hl, #_addressByte
+	ld	hl, #_note
 	ld	A,(hl)
 	ld  B, A
 	ld	hl,#_polyNoteState + 2

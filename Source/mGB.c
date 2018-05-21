@@ -45,8 +45,8 @@ void setSoundDefaults()
 
 void testSynths()
 {
-	addressByte = 0x40;
-	valueByte = 0x7F;
+	note = 0x40;
+	velocity = 0x7F;
 	asmPlayNotePu1();
 }
 
