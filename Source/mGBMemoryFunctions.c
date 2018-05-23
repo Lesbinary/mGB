@@ -1,11 +1,12 @@
 
 void saveDataSet(UBYTE synth)
 {
-    ENABLE_RAM_MBC1;
+	ENABLE_RAM_MBC1;
 	x = (synth + 24U);
 	x = dataSet[x] * 8;
 	i=0;
-	switch(synth) {
+	switch(synth)
+		{
 		case 0:
 			for(j=0;j!=7;j++) {
 				saveData[x+i] = dataSet[j];
@@ -30,16 +31,17 @@ void saveDataSet(UBYTE synth)
 				i++;
 			}
 			break;
-	}
+		}
 	DISABLE_RAM_MBC1;
 }
 
 void loadDataSet(UBYTE synth)
 {
-    ENABLE_RAM_MBC1;
+	ENABLE_RAM_MBC1;
 	x = dataSet[(synth + 24U)] * 8U;
 	i=0;
-	switch(synth) {
+	switch(synth)
+		{
 		case 0U:
 			for(j=0;j!=7;j++) {
 				if(!parameterLock[j]) dataSet[j] = saveData[x+i];
@@ -65,11 +67,11 @@ void loadDataSet(UBYTE synth)
 				i++;
 			}
 			break;
-	}
+		}
 	DISABLE_RAM_MBC1;
 }
 
-void snapRecall()
+void snapRecall(void)
 {
 	if(cursorRowMain == 0x08U) {
 		for(l=0;l<4;l++) {
@@ -92,7 +94,7 @@ void snapRecall()
 	}
 }
 
-void checkMemory()
+void checkMemory(void)
 {
 	ENABLE_RAM_MBC1;
 	if(saveData[512] != 0xF7) {
@@ -121,6 +123,6 @@ void checkMemory()
 		saveData[512] = 0xF7;
 	}
 	DISABLE_RAM_MBC1;
-	
+
 	for(j=0;j!=24;j++) dataSetSnap[j] = dataSet[j];
 }

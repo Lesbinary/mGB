@@ -1,7 +1,7 @@
 
 UBYTE wavStepCounter;
 
-void setOutputSwitch()
+void setOutputSwitch(void)
 {
 	NR51_REG = outputSwitch[0]+outputSwitch[1]+outputSwitch[2]+outputSwitch[3];
 }
@@ -11,15 +11,15 @@ void setOutputPanBySynth(UBYTE synth, UBYTE value)
 	outputSwitchValue[synth]=value;
 
 	if(value == 3U) {
-    	value = 0x11<<synth;
+		value = 0x11<<synth;
 	} else if(value == 2U) {
-    	value = 0x10<<synth;
+		value = 0x10<<synth;
 	} else if(value == 1U) {
-    	value = 0x01<<synth;
+		value = 0x01<<synth;
 	} else {
-    	value = 0x00;
+		value = 0x00;
 	}
-    outputSwitch[synth] = value;
+	outputSwitch[synth] = value;
 	NR51_REG = outputSwitch[0]+outputSwitch[1]+outputSwitch[2]+outputSwitch[3];
 }
 
@@ -27,13 +27,13 @@ void setOutputPan(UBYTE synth, UBYTE value)
 {
   if(value > 96U) {
     value = 0x10U<<synth;
-	outputSwitchValue[synth]=2;
+		outputSwitchValue[synth]=2;
   } else if (value > 32U) {
     value = 0x11U<<synth;
-	outputSwitchValue[synth]=3;
+		outputSwitchValue[synth]=3;
   } else {
     value = 0x01U<<synth;
-	outputSwitchValue[synth]=1;
+		outputSwitchValue[synth]=1;
   }
   outputSwitch[synth] = value;
   NR51_REG = outputSwitch[0]+outputSwitch[1]+outputSwitch[2]+outputSwitch[3];
@@ -42,54 +42,54 @@ void setOutputPan(UBYTE synth, UBYTE value)
 void updateValueSynth(UBYTE p)
 {
 	switch(p)
-	{
+		{
 		case 0:
 			pu1Oct = dataSet[p];
 			pu1Oct = (pu1Oct - 2U) * 12U;
-		break;
+			break;
 		case 1:
 			NR11_REG = ((dataSet[p] << 3) << 3) |7;
-		break;
+			break;
 		case 2:
 			pu1Env = dataSet[p];
-		break;
+			break;
 		case 3:
 			NR10_REG = dataSet[p];
-		break;
+			break;
 		case 4:
 			pbRange[0] = dataSet[p];
-		break;
+			break;
 		case 5:
 			pu1Sus = dataSet[p];
 			if(!dataSet[p] && !noteStatus[PU1_CURRENT_STATUS]) NR12_REG = 0U;
-		break;
+			break;
 		case 6:
 			setOutputPanBySynth(0U,dataSet[p]);
-		break;
+			break;
 		case 7:
 			pu2Oct = dataSet[p];
 			pu2Oct = (pu2Oct - 2U) * 12U;
-		break;
+			break;
 		case 8:
 			NR21_REG = ((dataSet[p] << 3) << 3) |7;
-		break;
+			break;
 		case 9:
 			pu2Env = dataSet[p];
-		break;
+			break;
 		case 10:
 			pbRange[1] = dataSet[p];
-		break;
+			break;
 		case 11:
 			pu2Sus = dataSet[p];
 			if(!dataSet[p] && !noteStatus[PU2_CURRENT_STATUS]) NR22_REG = 0U;
-		break;
+			break;
 		case 12:
 			setOutputPanBySynth(1U,dataSet[p]);
-		break;
+			break;
 		case 13:
 			wavOct = dataSet[p];
 			wavOct = (wavOct - 2U) * 12U;
-		break;
+			break;
 		case 14:
 			wavDataOffset = (dataSet[p]<<4) + dataSet[15];
 			break;
@@ -123,9 +123,9 @@ void updateValueSynth(UBYTE p)
 		case 23:
 			setOutputPanBySynth(3U,dataSet[p]);
 			break;
-    default:
-      break;
-	}
+		default:
+			break;
+		}
 }
 
 void updateSynth(UBYTE synth)
@@ -139,7 +139,7 @@ void updateSynth(UBYTE synth)
 }
 
 
-void updateSynths()
+void updateSynths(void)
 {
 	enable_interrupts();
 
@@ -149,16 +149,16 @@ void updateSynths()
 	if(vibratoDepth[NOI]) updateVibratoPosition(NOI);
 	if(wavSweepSpeed) {
 		if(!wavStepCounter) {
-		counterWav++;
-		if(wavSweepSpeed && cueWavSweep) {
-			wavCurrentFreq=currentFreqData[WAV]-(counterWav<<wavSweepSpeed);
-			if(!(wavSweepSpeed>>3U) && (wavCurrentFreq>0x898U)) {
-				wavCurrentFreq = 0U;
-				cueWavSweep = 0U;
+			counterWav++;
+			if(wavSweepSpeed && cueWavSweep) {
+				wavCurrentFreq=currentFreqData[WAV]-(counterWav<<wavSweepSpeed);
+				if(!(wavSweepSpeed>>3U) && (wavCurrentFreq>0x898U)) {
+					wavCurrentFreq = 0U;
+					cueWavSweep = 0U;
+				}
+				NR34_REG = wavCurrentFreq >> 8U;
+				NR33_REG = wavCurrentFreq;
 			}
-			NR34_REG = wavCurrentFreq >> 8U;
-			NR33_REG = wavCurrentFreq;
-		}
 		}
 		wavStepCounter++;
 		if(wavStepCounter == 0x02U) wavStepCounter = 0;

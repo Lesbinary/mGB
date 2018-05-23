@@ -1,10 +1,10 @@
 
-void clearParameterLocks()
+void clearParameterLocks(void)
 {
 	for(j=0;j!=24;j++) parameterLock[j] = 0;
 }
 
-void setDataValue()
+void setDataValue(void)
 {
 	BOOLEAN up=0;
 	UBYTE inc=1;
@@ -29,7 +29,8 @@ void setDataValue()
 			if(cursorEnable[j] && tableCursorLookup[j][cursorRow[j]] != 0xFFU) {
 				x = tableCursorLookup[j][cursorRow[j]];
 				l = tableData[x][2];
-				switch(x) {
+				switch(x)
+					{
 					case 6:
 					case 12:
 					case 19:
@@ -50,17 +51,17 @@ void setDataValue()
 					case 20:
 						inc=1;
 					default:
-					if(up) {
-						dataSet[x]+=inc;
-						if(dataSet[x]>=l) dataSet[x]=(l-1);
-					} else if (dataSet[x]) {
-						if(dataSet[x] > inc) {
-							dataSet[x]-=inc;
-						} else {
-							dataSet[x]=0;
+						if(up) {
+							dataSet[x]+=inc;
+							if(dataSet[x]>=l) dataSet[x]=(l-1);
+						} else if (dataSet[x]) {
+							if(dataSet[x] > inc) {
+								dataSet[x]-=inc;
+							} else {
+								dataSet[x]=0;
+							}
 						}
 					}
-				}
 				parameterLock[x] = 1;
 				updateValueSynth(x);
 			}
@@ -69,7 +70,7 @@ void setDataValue()
 }
 
 
-void getPad()
+void getPad(void)
 {
 	i = joypad();
 	if(i != lastPadRead) {

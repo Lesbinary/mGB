@@ -26,7 +26,7 @@ void printbyte(UBYTE v1, UBYTE v2, UBYTE v3)
 #include <mGBMemoryFunctions.c>
 #include <mGBUserFunctions.c>
 
-void setSoundDefaults()
+void setSoundDefaults(void)
 {
   NR52_REG = 0x8FU;  //Turn sound on
   NR50_REG = 0x77U;  //Turn on Pulses outs
@@ -43,7 +43,7 @@ void setSoundDefaults()
   NR41_REG = 0x3FU; //sound length
 }
 
-void testSynths()
+void testSynths(void)
 {
 	note = 0x40;
 	velocity = 0x7F;
@@ -51,26 +51,26 @@ void testSynths()
 }
 
 
-void main()
+void main(void)
 {
-    disable_interrupts();
-	  cpu_fast();
-		checkMemory();
-		displaySetup();
-		setSoundDefaults();
-  	add_TIM(updateSynths);
+	disable_interrupts();
+	cpu_fast();
+	checkMemory();
+	displaySetup();
+	setSoundDefaults();
+	add_TIM(updateSynths);
 
-		loadDataSet(0x00U);
-		loadDataSet(0x01U);
-		loadDataSet(0x02U);
-		loadDataSet(0x03U);
-    enable_interrupts();
+	loadDataSet(0x00U);
+	loadDataSet(0x01U);
+	loadDataSet(0x02U);
+	loadDataSet(0x03U);
+	enable_interrupts();
 
 
   /* Set TMA to divide clock by 0x100 */
-  		TMA_REG = 0x00U;
+	TMA_REG = 0x00U;
   /* Set clock to 262144 Hertz */
-  		TAC_REG = 0x05U;
+	TAC_REG = 0x05U;
   /* Handle VBL and TIM interrupts */
 
   set_interrupts(VBL_IFLAG | TIM_IFLAG | SIO_IFLAG);
@@ -82,7 +82,7 @@ void main()
 	delay(2000);
 
 	showMainScreen();
-    printversion();
-    //testSynths();
+	printversion();
+	//testSynths();
 	asmMain();
 }

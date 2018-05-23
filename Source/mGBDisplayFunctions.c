@@ -1,9 +1,9 @@
-void printversion()
+void printversion(void)
 {
 	set_bkg_tiles(1,16,10,1,versionnumber);
 }
 
-void printhelp()
+void printhelp(void)
 {
 	j=helpmap[cursorColumn][cursorRowMain];
 	set_bkg_tiles(1,16,18,1,helpdata[j]);
@@ -12,7 +12,8 @@ void printhelp()
 void updateDisplayValue(UBYTE p,UBYTE v)
 {
 	bkg[1]=0;
-	switch(p){
+	switch(p)
+		{
 		case 0U:
 		case 7U:
 		case 13U:
@@ -83,7 +84,7 @@ void updateDisplayValue(UBYTE p,UBYTE v)
 			break;
 		default:
 			break;
-	}
+		}
 }
 
 void updateDisplaySynth()
@@ -150,7 +151,7 @@ void setCursor()
 	printhelp();
 }
 
-void hideCursor()
+void hideCursor(void)
 {
 	for(j=0;j!=4;j++) {
 		move_sprite(j+SPRITE_ARRL_START,0, 0);
@@ -158,12 +159,12 @@ void hideCursor()
 	move_sprite(SPRITE_ARRT_START, 0, 0);
 }
 
-void showCursor()
+void showCursor(void)
 {
 	setCursor();
 }
 
-void setPlayMarker()
+void setPlayMarker(void)
 {
 	for(j=0;j!=4;j++) {
 		if(!j) {
@@ -179,7 +180,7 @@ void setPlayMarker()
 	}
 }
 
-void cls()
+void cls(void)
 {
 	for(j=0;j!=20;j++) bkg[j]= 0x00U;
 	for(j=0;j!=18;j++) {
@@ -187,14 +188,14 @@ void cls()
 	}
 }
 
-void showSampleScreen()
+void showSampleScreen(void)
 {
 	hideCursor();
 	cls();
 	currentScreen = 1;
 }
 
-void showMainScreen()
+void showMainScreen(void)
 {
 	cls();
 	currentScreen = 1;
@@ -209,17 +210,17 @@ void showMainScreen()
 	}
 
 	updateDisplay();
-    showCursor();
+	showCursor();
 }
 
-void showSplashScreen()
+void showSplashScreen(void)
 {
-    hideCursor();
+	hideCursor();
 	cls();
 	set_bkg_tiles(6,7,8,2,logo);
 }
 
-void toggleScreen()
+void toggleScreen(void)
 {
 	if(currentScreen == 0) {
 		DISPLAY_ON;
@@ -230,7 +231,7 @@ void toggleScreen()
 	}
 }
 
-void displaySetup()
+void displaySetup(void)
 {
 	DISPLAY_OFF;
 	set_bkg_palette( 0, 1, &bgpalette[0] );

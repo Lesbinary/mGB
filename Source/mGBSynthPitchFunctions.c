@@ -18,7 +18,8 @@ void setPitchBendFrequencyOffset(UBYTE synth)
     currentFreq = currentFreq * (f - freqRange);
     currentFreq = f - (currentFreq>>6);
 	}
-	switch(synth) {
+	switch(synth)
+		{
 		case PU1:
 			NR14_REG = (currentFreq>>8U);
 			NR13_REG = currentFreq;
@@ -34,17 +35,17 @@ void setPitchBendFrequencyOffset(UBYTE synth)
 			NR33_REG = currentFreq;
 			wavCurrentFreq = currentFreq;
 			currentFreqData[WAV] = currentFreq;
-	}
+		}
 }
 
-void setPitchBendFrequencyOffsetNoise()
+void setPitchBendFrequencyOffsetNoise(void)
 {
   systemIdle = 0;
   if(pbWheelIn[NOI] & 0x80) {
-      noteStatus[NOI_CURRENT_NOTE] = noteStatus[NOI_CURRENT_NOTE];
+		noteStatus[NOI_CURRENT_NOTE] = noteStatus[NOI_CURRENT_NOTE];
     currentFreq = noiFreq[noteStatus[NOI_CURRENT_NOTE] + ((pbWheelIn[NOI] - 0x80) >>3)];
   } else {
-      noteStatus[NOI_CURRENT_NOTE] = noteStatus[NOI_CURRENT_NOTE];
+		noteStatus[NOI_CURRENT_NOTE] = noteStatus[NOI_CURRENT_NOTE];
     currentFreq = noiFreq[noteStatus[NOI_CURRENT_NOTE] - ((0x80 - pbWheelIn[NOI]) >>3)];
   }
   NR43_REG = currentFreq;
@@ -76,17 +77,17 @@ void updateVibratoPosition(UBYTE synth)
 {
 	if(vibratoTimer[synth] == vibratoSpeed[synth]) {
 		vibratoTimer[synth] = 0x00;
-	if(vibratoSlope[synth] && vibratoPosition[synth] < vibratoDepth[synth]) {
-		vibratoPosition[synth]+=1;
-	} else {
-		vibratoSlope[synth] = 0;
-		if(vibratoPosition[synth]) {
-			vibratoPosition[synth]-=1;
+		if(vibratoSlope[synth] && vibratoPosition[synth] < vibratoDepth[synth]) {
+			vibratoPosition[synth]+=1;
 		} else {
-			vibratoSlope[synth]=1;
+			vibratoSlope[synth] = 0;
+			if(vibratoPosition[synth]) {
+				vibratoPosition[synth]-=1;
+			} else {
+				vibratoSlope[synth]=1;
+			}
 		}
-	}
-	addVibrato(synth);
+		addVibrato(synth);
 
 	}
 	vibratoTimer[synth]++;
